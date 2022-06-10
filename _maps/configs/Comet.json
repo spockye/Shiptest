@@ -1,9 +1,9 @@
 {
-	"map_name": "Comet-Class Miner",
+	"map_name": "Exhume-Class Miner",
 		"prefix": "ISV",
-	"map_short_name": "Comet Class",
-	"map_path": "_maps/shuttles/shiptest/comet-class.dmm",
-	"map_id": "comet-class",
+	"map_short_name": "Exhume Class",
+	"map_path": "_maps/shuttles/shiptest/exhume-class.dmm",
+	"map_id": "exhume-class",
 	"job_slots": {
 		"Quartermaster": 1,
 		"Asteroid Miner": {

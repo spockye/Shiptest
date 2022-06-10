@@ -92,6 +92,12 @@
 /obj/structure/railing{
 	dir = 1
 	},
+/obj/machinery/button/door{
+	id = "exhumecargo";
+	name = "cargo bay";
+	pixel_x = -10;
+	pixel_y = 25
+	},
 /turf/open/floor/plasteel/patterned/grid,
 /area/ship/storage)
 "cG" = (
@@ -204,6 +210,12 @@
 	},
 /turf/open/floor/plasteel/grimy,
 /area/ship/medical)
+"hc" = (
+/obj/structure/railing{
+	dir = 8
+	},
+/turf/open/floor/engine/hull,
+/area/ship/external)
 "hz" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -384,6 +396,12 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel/patterned,
 /area/ship/cargo)
+"nh" = (
+/obj/structure/railing/corner{
+	dir = 4
+	},
+/turf/open/floor/engine/hull,
+/area/ship/external)
 "no" = (
 /obj/structure/table,
 /obj/item/stack/spacecash/c1000{
@@ -480,6 +498,12 @@
 "sL" = (
 /turf/closed/wall/mineral/titanium/nodiagonal,
 /area/ship/storage)
+"tq" = (
+/obj/structure/railing{
+	dir = 4
+	},
+/turf/open/floor/engine/hull,
+/area/ship/external)
 "ty" = (
 /obj/structure/railing/corner{
 	dir = 1
@@ -590,12 +614,6 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/plasteel/tech,
 /area/ship/bridge)
-"BT" = (
-/obj/structure/railing/corner{
-	dir = 1
-	},
-/turf/open/floor/engine/hull,
-/area/ship/external)
 "Cc" = (
 /obj/effect/turf_decal/floordetail/traction,
 /obj/effect/turf_decal/industrial/warning{
@@ -879,17 +897,11 @@
 "Ok" = (
 /obj/structure/fans/tiny,
 /obj/machinery/door/poddoor{
-	id = "FalkCargo";
+	id = "exhumecargo";
 	name = "cargo bay blast door"
 	},
 /turf/open/floor/plating,
 /area/ship/storage)
-"OZ" = (
-/obj/structure/railing/corner{
-	dir = 4
-	},
-/turf/open/floor/engine/hull,
-/area/ship/external)
 "PC" = (
 /turf/closed/wall/mineral/titanium/nodiagonal,
 /area/ship/cargo)
@@ -914,12 +926,6 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
 /turf/open/floor/plasteel/tech/techmaint,
 /area/ship/engineering/electrical)
-"Qq" = (
-/obj/structure/railing{
-	dir = 8
-	},
-/turf/open/floor/engine/hull,
-/area/ship/external)
 "Qx" = (
 /obj/machinery/selling_pad,
 /obj/effect/turf_decal/siding/brown{
@@ -932,8 +938,8 @@
 "QU" = (
 /obj/structure/fans/tiny,
 /obj/machinery/door/poddoor{
-	id = "FalkCargo";
-	name = "cargo bay blast door"
+	id = "exhumebay";
+	name = "pod Bay"
 	},
 /turf/open/floor/plating,
 /area/ship/engineering)
@@ -996,6 +1002,12 @@
 	},
 /obj/item/spacepod_equipment/weaponry/plasma_cutter,
 /obj/item/spacepod_equipment/cargo/large/ore,
+/obj/machinery/button/door{
+	id = "exhumebay";
+	name = "Pod bay";
+	pixel_x = -24;
+	pixel_y = 25
+	},
 /turf/open/floor/plasteel/patterned/ridged,
 /area/ship/engineering)
 "SY" = (
@@ -1091,12 +1103,6 @@
 	},
 /turf/open/floor/plasteel/patterned/grid,
 /area/ship/storage)
-"Vl" = (
-/obj/structure/railing{
-	dir = 4
-	},
-/turf/open/floor/engine/hull,
-/area/ship/external)
 "Vv" = (
 /obj/spacepod/prebuilt,
 /obj/effect/turf_decal/floordetail/traction,
@@ -1146,6 +1152,12 @@
 	},
 /turf/open/floor/plasteel/tech,
 /area/ship/bridge)
+"We" = (
+/obj/structure/railing/corner{
+	dir = 1
+	},
+/turf/open/floor/engine/hull,
+/area/ship/external)
 "Wv" = (
 /turf/open/floor/engine/hull,
 /area/ship/external)
@@ -1279,9 +1291,9 @@ zN
 QV
 QV
 zN
-Vl
-Vl
-OZ
+tq
+tq
+nh
 Wv
 Wv
 sL
@@ -1411,9 +1423,9 @@ zN
 Ar
 ga
 zN
-Qq
-Qq
-BT
+hc
+hc
+We
 Wv
 Wv
 QU
