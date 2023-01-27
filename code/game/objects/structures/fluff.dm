@@ -263,3 +263,10 @@
 
 /obj/structure/fluff/hedge/opaque //useful for mazes and such
 	opacity = TRUE
+
+/obj/structure/fluff/exposed_cables
+	name = "power conduit"
+	desc = "A bundle of exposed wires."
+	icon = "icons/obj/fluff.dmi"
+	icon_state = "exposed_cables"
+	base_icon_state = "exposed_cables"
