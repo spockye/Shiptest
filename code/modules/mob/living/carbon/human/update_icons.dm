@@ -124,11 +124,6 @@ There are several things that need to be remembered:
 
 		var/mutable_appearance/uniform_overlay
 
-		if(dna.species.sexes && (dna.species.bodytype & BODYTYPE_HUMANOID)) //Agggggggghhhhh
-			var/G = (gender == FEMALE) ? "f" : "m"
-			if(G == "f" && U.fitted != NO_FEMALE_UNIFORM)
-				uniform_overlay = U.build_worn_icon(default_layer = UNIFORM_LAYER, default_icon_file = 'icons/mob/clothing/under/default.dmi', isinhands = FALSE, femaleuniform = U.fitted, override_state = target_overlay, mob_species = dna.species)
-
 		var/icon_file
 		var/handled_by_bodytype = TRUE
 		if(!uniform_overlay)
@@ -140,11 +135,14 @@ There are several things that need to be remembered:
 			else if((dna.species.bodytype & BODYTYPE_VOX) && (U.supports_variations & VOX_VARIATION))
 				icon_file = VOX_UNIFORM_PATH
 
+			else if((dna.species.bodytype & BODYTYPE_KEPORI) && (U.supports_variations & KEPORI_VARIATION))
+				icon_file = KEPORI_UNIFORM_PATH
+
 			if(!(icon_exists(icon_file, RESOLVE_ICON_STATE(U))))
 				handled_by_bodytype = FALSE
 				icon_file = U.mob_overlay_icon || DEFAULT_UNIFORM_PATH
 
-			uniform_overlay = U.build_worn_icon(default_layer = UNIFORM_LAYER, default_icon_file = icon_file, isinhands = FALSE, override_file = icon_file, mob_species = CHECK_USE_AUTOGEN)
+			uniform_overlay = U.build_worn_icon(default_layer = UNIFORM_LAYER, default_icon_file = icon_file, isinhands = FALSE, override_file = icon_file, override_state = target_overlay, mob_species = CHECK_USE_AUTOGEN)
 
 		if(!uniform_overlay)
 			return
@@ -430,9 +428,9 @@ There are several things that need to be remembered:
 
 		if(!(icon_exists(icon_file, RESOLVE_ICON_STATE(I))))
 			handled_by_bodytype = FALSE
-			icon_file = DEFAULT_SUIT_PATH
+			icon_file = I.mob_overlay_icon
 
-		suit_overlay = wear_suit.build_worn_icon(default_layer = SUIT_LAYER, default_icon_file = icon_file, mob_species = CHECK_USE_AUTOGEN)
+		suit_overlay = wear_suit.build_worn_icon(default_layer = SUIT_LAYER, override_file = icon_file, mob_species = CHECK_USE_AUTOGEN)
 
 		if(!suit_overlay)
 			return
@@ -625,7 +623,7 @@ There are several things that need to be remembered:
 
 /mob/living/carbon/human/proc/update_hud_s_store(obj/item/I)
 	I.screen_loc = ui_sstore1
-	if((client && hud_used) && (hud_used.inventory_shown && hud_used.hud_shown))
+	if(client && hud_used?.hud_shown)
 		client.screen += I
 	update_observer_view(I,TRUE)
 
@@ -671,10 +669,10 @@ There are several things that need to be remembered:
 /*
 Does everything in relation to building the /mutable_appearance used in the mob's overlays list
 covers:
- inhands and any other form of worn item
- centering large appearances
- layering appearances on custom layers
- building appearances from custom icon files
+inhands and any other form of worn item
+centering large appearances
+layering appearances on custom layers
+building appearances from custom icon files
 
 By Remie Richards (yes I'm taking credit because this just removed 90% of the copypaste in update_icons())
 
@@ -691,6 +689,7 @@ in this situation default_icon_file is expected to match either the lefthand_ or
 femalueuniform: A value matching a uniform item's fitted var, if this is anything but NO_FEMALE_UNIFORM, we
 generate/load female uniform sprites matching all previously decided variables
 
+^this female part sucks and will be fully ripped out ideally
 
 */
 /obj/item/proc/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, override_file = null, datum/species/mob_species = null, direction = null)
@@ -745,7 +744,7 @@ generate/load female uniform sprites matching all previously decided variables
 	return standing
 
 
-/obj/item/proc/get_held_offsets(var/direction)
+/obj/item/proc/get_held_offsets(direction)
 	var/list/L
 	if(ismob(loc))
 		if(iscarbon(loc))
@@ -791,7 +790,7 @@ generate/load female uniform sprites matching all previously decided variables
 					break
 
 // Only renders the head of the human
-/mob/living/carbon/human/proc/update_body_parts_head_only(var/update_limb_data)
+/mob/living/carbon/human/proc/update_body_parts_head_only(update_limb_data)
 	if (!dna?.species)
 		return
 

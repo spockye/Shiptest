@@ -17,22 +17,20 @@
 		if(prob(salvageable_parts[path]))
 			new path (loc)
 
-/obj/structure/salvageable/attackby(obj/item/tool, mob/living/user, params)
-	if((user.a_intent != INTENT_HELP) && tool.tool_behaviour == TOOL_CROWBAR)
-		return
-	return ..()
-
 /obj/structure/salvageable/crowbar_act(mob/living/user, obj/item/tool)
 	. = ..()
-	user.visible_message(user,"<span class='notice'>[user] starts dismantling [src].</span>", \
+	if(user.a_intent == INTENT_HARM)
+		return FALSE
+	user.visible_message("<span class='notice'>[user] starts dismantling [src].</span>", \
 					"<span class='notice'>You start salvaging anything useful from [src]...</span>")
 	tool.play_tool_sound(src, 100)
 	if(do_after(user, 8 SECONDS, target = src))
-		user.visible_message(user, "<span class='notice'>[user] dismantles [src].</span>", \
+		user.visible_message("<span class='notice'>[user] dismantles [src].</span>", \
 						"<span class='notice'>You salvage [src].</span>")
 		dismantle(user)
 		tool.play_tool_sound(src, 100)
 		qdel(src)
+	return TRUE
 
 
 //Types themself, use them, but not the parent object
@@ -288,6 +286,44 @@
 
 			new /mob/living/simple_animal/bot/secbot/ed209/rockplanet(get_turf(src))
 
+/obj/structure/salvageable/seed
+	name = "ruined seed vendor"
+	desc = "This is where the seeds lived. Maybe you can still get some?"//megaseed voiceline reference
+	icon_state = "seeds-broken"
+	icon = 'icons/obj/vending.dmi'
+	color = "#808080"
+
+	salvageable_parts = list(
+		/obj/effect/spawner/lootdrop/seeded = 80,
+		/obj/effect/spawner/lootdrop/seeded = 80,
+		/obj/effect/spawner/lootdrop/seeded = 80,
+		/obj/effect/spawner/lootdrop/seeded = 80,
+		/obj/effect/spawner/lootdrop/seeded = 80,
+		/obj/item/seeds/random = 80,
+		/obj/item/seeds/random = 40,
+		/obj/item/seeds/random = 40,
+		/obj/item/stack/ore/salvage/scrapmetal/five = 80,
+		/obj/item/stack/cable_coil/cut = 80,
+		/obj/item/disk/plantgene = 20,
+	)
+
+/obj/structure/salvageable/seed/dismantle(mob/living/user)
+	. = ..()
+	var/danger_level = rand(1,100)
+	switch(danger_level)
+		if(1 to 50)
+			audible_message("<span class='notice'>The [src] buzzes softly as it falls apart.</span>")
+
+		if(51 to 80)
+			playsound(src, 'sound/machines/buzz-two.ogg', 100, FALSE, FALSE)
+			audible_message("<span class='danger'>As the [src] collapses, an oversized tomato lunges out from inside!</span>")
+			new /mob/living/simple_animal/hostile/killertomato(get_turf(src))
+
+		if(81 to 100)
+			playsound(src, 'sound/machines/buzz-two.ogg', 100, FALSE, FALSE)
+			audible_message("<span class='danger'>A bundle of vines unfurls from inside the [src]!</span>")
+			new /mob/living/simple_animal/hostile/venus_human_trap(get_turf(src))
+
 //scrap item, mostly for fluff
 /obj/item/stack/ore/salvage
 	name = "salvage"
@@ -509,7 +545,7 @@
 /obj/effect/spawner/lootdrop/random_gun_protolathe_lootdrop
 	loot = list(
 			/obj/item/gun/energy/lasercannon/unrestricted = 1,
-			/obj/item/gun/ballistic/automatic/proto/unrestricted = 1,
+			/obj/item/gun/ballistic/automatic/smg/proto/unrestricted = 1,
 			/obj/item/gun/energy/temperature/security = 1,
 		)
 /obj/effect/spawner/lootdrop/random_ammo_protolathe_lootdrop

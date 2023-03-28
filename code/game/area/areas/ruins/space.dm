@@ -17,34 +17,18 @@
 	icon_state = "away"
 	always_unpowered = FALSE
 
-// Ruins of "onehalf" ship
+// Onehalf Ruin
 
-/area/ruin/space/has_grav/onehalf/hallway
-	name = "Hallway"
-	icon_state = "hallC"
+/area/ruin/space/has_grav/onehalf
+	name = "Station Fragment"
+	icon_state = "away"
 
-/area/ruin/space/has_grav/onehalf/drone_bay
-	name = "Mining Drone Bay"
-	icon_state = "engine"
-
-/area/ruin/space/has_grav/onehalf/dorms_med
-	name = "Crew Quarters"
-	icon_state = "Sleep"
-
-/area/ruin/space/has_grav/onehalf/bridge
-	name = "Bridge"
-	icon_state = "bridge"
-
-
+//Dinner For Two
 
 /area/ruin/space/has_grav/powered/dinner_for_two
 	name = "Dinner for Two"
 
-/area/ruin/space/has_grav/powered/cat_man
-	name = "Kitty Den"
-
-/area/ruin/space/has_grav/powered/authorship
-	name = "Authorship"
+//Aesthetic
 
 /area/ruin/space/has_grav/powered/aesthetic
 	name = "Aesthetic"
@@ -71,20 +55,6 @@
 /area/ruin/space/has_grav/derelictoutpost/dockedship
 	name = "Derelict Outpost Docked Ship"
 	icon_state = "red"
-
-//Ruin of turretedoutpost
-
-/area/ruin/space/has_grav/turretedoutpost
-	name = "Turreted Outpost"
-	icon_state = "red"
-
-
-//Ruin of old teleporter
-
-/area/ruin/space/oldteleporter
-	name = "Old Teleporter"
-	icon_state = "teleporter"
-
 
 //Ruin of mech transport
 
@@ -136,13 +106,6 @@
 /area/ruin/space/has_grav/deepstorage/crusher
 	name = "Deep Storage Recycler"
 	icon_state = "storage"
-
-
-//Ruin of Abandoned Zoo
-
-/area/ruin/space/has_grav/abandonedzoo
-	name = "Abandoned Zoo"
-	icon_state = "green"
 
 
 //Ruin of ancient Space Station
@@ -310,13 +273,6 @@
 	icon_state = "DJ"
 	has_gravity = STANDARD_GRAVITY
 
-//ABANDONED TELEPORTER
-
-/area/ruin/space/abandoned_tele
-	name = "Abandoned Teleporter"
-	icon_state = "teleporter"
-	ambientsounds = list('sound/ambience/ambimalf.ogg', 'sound/ambience/signal.ogg')
-
 //OLD AI SAT
 
 /area/tcommsat/oldaisat
@@ -342,6 +298,7 @@
 	icon_state = "yellow"
 
 //HELL'S FACTORY OPERATING FACILITY
+
 /area/ruin/space/has_grav/hellfactory
 	name = "Hell Factory"
 	icon_state = "yellow"
@@ -352,6 +309,7 @@
 	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | NOTELEPORT
 
 //Ruin of Transport 18
+
 /area/ruin/space/has_grav/transport18fore
 	name = "Booze Cruise Fore"
 	icon_state = "crew_quarters"
@@ -403,43 +361,34 @@
 	icon_state = "away"
 
 //MACSPACE
+
 /area/ruin/space/has_grav/powered/macspace
 	name = "Mac Space Restaurant"
 	icon_state = "yellow"
 
-//POWER PUZLE
+//NUCLEAR DUMP -- this ruin uses an area from power puzzle, for whatever reason. added new areas, for now.
 
-/area/ruin/space/has_grav/storage/central
-	name = "storage central"
+/area/ruin/space/has_grav/nucleardump
+	name = "Hallway"
 	icon_state = "hallC"
 
-/area/ruin/space/has_grav/storage/central2
-	name = "storage Vault"
+/area/ruin/space/has_grav/nucleardump/supermatter
+	name = "Supermatter Chamber"
 	icon_state = "red"
 
-/area/ruin/space/has_grav/storage/materials1
-	name = "storage materials fore room"
-	icon_state = "storage_wing"
+//POWER PUZZLE
 
-/area/ruin/space/has_grav/storage/materials2
-	name = "storage Materials secure room"
-	icon_state = "storage"
+/area/ruin/space/has_grav/powerpuzzle
+	name = "Central Storage"
+	icon_state = "hallC"
 
-/area/ruin/space/has_grav/storage/materials3
-	name = "storage materials miscellaneous"
+/area/ruin/space/has_grav/powerpuzzle/secure
+	name = "Security Wing"
+	icon_state = "red"
+
+/area/ruin/space/has_grav/powerpuzzle/engineering
+	name = "Engineering Wing"
 	icon_state = "yellow"
-
-/area/ruin/space/has_grav/storage/power1
-	name = "storage Enginering central"
-	icon_state = "yellow"
-
-/area/ruin/space/has_grav/storage/power2
-	name = "storage Enginering "
-	icon_state = "engi_storage"
-
-/area/ruin/space/has_grav/storage/power3
-	name = "storage Crates"
-	icon_state = "green"
 
 //Space Gym
 
@@ -448,6 +397,7 @@
 	icon_state = "firingrange"
 
 //scav_mining
+
 /area/ruin/space/has_grav/scav_mining/entrance
 	name = "Asteroid mine entrance"
 	icon_state = "red"
@@ -492,6 +442,7 @@
 	always_unpowered = FALSE
 
 //Syndie battle sphere
+
 /area/ruin/space/has_grav/syndicircle/halls
 	name = "Syndicate Battle Sphere Primary Hallway"
 	icon_state = "dk_yellow"
@@ -523,6 +474,7 @@
 	color = "#26773a88"
 
 //Syndiecate chemlab
+
 /area/ruin/space/has_grav/crazylab/airlock
 	name = "Syndicate Laboratory 4071 Airlock"
 	icon_state = "dk_yellow"
@@ -577,3 +529,43 @@
 	name = "Syndicate Laboratory 4071 Surrounding Area"
 	icon_state = "dk_yellow"
 	color = "#26773a88"
+
+//Corporate Mining Ruin
+
+/area/ruin/space/has_grav/corporatemine/crewquarters
+	name = "Corporate Mine Crew Quarters"
+	icon_state = "purple"
+
+/area/ruin/space/has_grav/corporatemine/bridge
+	name = "Corporate Mine Bridge"
+	icon_state = "bridge"
+
+/area/ruin/space/has_grav/corporatemine/hall
+	name = "Corporate Mine Hall"
+	icon_state = "hallC"
+
+//Space Mall
+
+/area/ruin/space/has_grav/spacemall
+	name = "Hallway"
+	icon_state = "hallC"
+
+/area/ruin/space/has_grav/spacemall/shop
+	name = "Space Mall Shop"
+	icon_state = "red"
+
+/area/ruin/space/has_grav/spacemall/shop2
+	name = "Space Mall Shop"
+	icon_state = "bluenew"
+
+/area/ruin/space/has_grav/spacemall/maint
+	name = "Space Mall Maintenance"
+	icon_state = "yellow"
+
+/area/ruin/space/has_grav/spacemall/dorms
+	name = "Space Mall Dorms"
+	icon_state = "green"
+
+/area/ruin/space/has_grav/spacemall/shuttle
+	name = "Space Mall Supply Shuttle"
+	icon_state = "blue"

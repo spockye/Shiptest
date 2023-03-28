@@ -567,7 +567,6 @@
 	color = "#13BC5E" // rgb: 19, 188, 94
 	race = list(/datum/species/jelly/slime,
 						/datum/species/human,
-						/datum/species/human/felinid,
 						/datum/species/lizard,
 						/datum/species/fly,
 						/datum/species/moth,
@@ -576,13 +575,6 @@
 						/datum/species/abductor,
 						/datum/species/squid)
 	process_flags = ORGANIC | SYNTHETIC
-
-/datum/reagent/mutationtoxin/felinid
-	name = "Felinid Mutation Toxin"
-	color = "#5EFF3B" //RGB: 94, 255, 59
-	race = /datum/species/human/felinid
-	process_flags = ORGANIC | SYNTHETIC //WS Edit - IPCs
-	taste_description = "something nyat good"
 
 /datum/reagent/mutationtoxin/lizard
 	name = "Sarathi Mutation Toxin"
@@ -1557,7 +1549,7 @@
 	color = "#FFFFFF" // white
 	random_color_list = list("#FFFFFF") //doesn't actually change appearance at all
 
- /* used by crayons, can't color living things but still used for stuff like food recipes */
+/* used by crayons, can't color living things but still used for stuff like food recipes */
 
 /datum/reagent/colorful_reagent/powder/red/crayon
 	name = "Red Crayon Powder"
@@ -1808,6 +1800,37 @@
 	color = "#5A64C8"
 	taste_description = "blueyalty" //also intentional
 	carpet_type = /turf/open/floor/carpet/royalblue
+
+//the ultimate fertilizer
+/datum/reagent/genesis
+	name = "Genesis Serum"
+	description = "A mysterious substance capable of spontaneously gestating plant life when given a surface to adhere to."
+	color = "#328242"
+	taste_description = "primordial essence"
+	reagent_state = LIQUID
+
+/datum/reagent/genesis/expose_turf(turf/T, reac_volume)
+	if(istype(T, /turf/open/floor/grass))//prevents spamming effect via. smoke or such
+		return
+	if(isplatingturf(T) || istype(T, /turf/open/floor/plasteel))
+		var/turf/open/floor/F = T
+		playsound(T, 'sound/effects/bubbles.ogg', 50)
+		F.PlaceOnTop(/turf/open/floor/grass, flags = CHANGETURF_INHERIT_AIR)
+		new /obj/effect/spawner/lootdrop/flower(T)
+		if(prob(75))
+			new /obj/effect/spawner/lootdrop/flora(T)
+	..()
+
+/datum/reagent/genesis/on_hydroponics_apply(obj/item/seeds/myseed, datum/reagents/chems, obj/machinery/hydroponics/mytray, mob/user)
+	. = ..()
+	if(chems.has_reagent(type, 1))
+		mytray.adjustHealth(round(chems.get_reagent_amount(type) * 1))
+		if(myseed)
+			myseed.adjust_potency(round(chems.get_reagent_amount(type)))
+			myseed.adjust_yield(round(chems.get_reagent_amount(type) * 0.5))
+			myseed.adjust_endurance(round(chems.get_reagent_amount(type) * 0.5))
+			myseed.adjust_production(round(chems.get_reagent_amount(type) * 0.5))
+			myseed.adjust_lifespan(round(chems.get_reagent_amount(type) * 0.5))
 
 /datum/reagent/bromine
 	name = "Bromine"
@@ -2601,6 +2624,122 @@
 		else
 			addtimer(CALLBACK(L, /mob/living.proc/gib), 5 SECONDS)
 
+/datum/reagent/cement
+	name = "Cement"
+	description = "A sophisticated binding agent used to produce concrete."
+	color = "#c4c0bc"
+	taste_description = "cement"
+	harmful = TRUE
+	var/potency = 2
+	var/concrete_type = /datum/reagent/concrete
+	var/units_per_aggregate = 5
+
+// make changes to dip_object -- remove H?
+/datum/reagent/cement/dip_object(obj/item/I, mob/user, obj/item/reagent_containers/H)
+	if(!istype(I, /obj/item/stack/ore/glass))
+		return FALSE
+	var/obj/item/stack/ore/glass/aggregate = I
+	// the maximum amount of aggregate we can use
+	var/agg_used = min(round(volume / units_per_aggregate), aggregate.get_amount())
+	if(!agg_used)
+		return FALSE
+	var/amt = agg_used * units_per_aggregate
+	aggregate.use(agg_used)
+	H.reagents.remove_reagent(src.type, amt)
+	H.reagents.add_reagent(concrete_type, amt)
+	return TRUE
+
+/datum/reagent/cement/expose_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1, touch_protection = 0)
+	. = ..()
+	if(!. || method != INGEST)
+		return
+	var/age = 6
+	if(ishuman(M))
+		var/mob/living/carbon/human/conc_eater = M
+		age = conc_eater.age
+	message_admins("[M] was forced to eat cement when [M.p_they()] [M.p_were()] [age]!")
+	SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "cement", /datum/mood_event/cement)
+
+/datum/reagent/cement/on_mob_life(mob/living/carbon/M)
+	. = ..()
+	if(prob(min(current_cycle/2, 5)))
+		M.adjustToxLoss(potency*REM)
+	if(prob(min(current_cycle/4, 10)))
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN,potency*REM)
+
+/datum/reagent/cement/hexement
+	name = "Hexement"
+	description = "An advanced, space-age binding agent used to produce reinforced concrete."
+	color = "#969390"
+	potency = 4
+	concrete_type = /datum/reagent/concrete/hexacrete
+	units_per_aggregate = 2
+
+/datum/reagent/cement/roadmix
+	name = "Road mixture"
+	description = "A mix of cement and asphalt. Looks less tasty than normal cement."
+	color = "#5c6361"
+	potency = 3
+	concrete_type = /datum/reagent/concrete/pavement
+
+/datum/reagent/concrete
+	name = "Concrete"
+	description = "A mix of cement and aggregate, commonly used as a bulk building material."
+	color = "#a8988a"
+	taste_description = "rocks"
+	var/units_per_wall = 10
+	var/units_per_floor = 2
+	var/turf/closed/wall/concrete/wall_type = /turf/closed/wall/concrete
+	var/turf/open/floor/concrete/floor_type = /turf/open/floor/concrete
+
+/datum/reagent/concrete/expose_obj(obj/O, volume)
+	var/girder_type = initial(wall_type.girder_type)
+	if(istype(O, girder_type))
+		return concify_girder(O, volume)
+	if(istype(O, /obj/structure/catwalk))
+		return concify_catwalk(O, volume)
+
+/datum/reagent/concrete/proc/concify_girder(obj/O, volume)
+	if(volume < units_per_wall)
+		return
+	var/turf/open/wall_turf = get_turf(O)
+	if(!istype(wall_turf))
+		return
+	var/turf/closed/wall/concrete/conc_wall = wall_turf.PlaceOnTop(wall_type)
+	O.transfer_fingerprints_to(conc_wall)
+	conc_wall.harden_lvl = 0
+	conc_wall.check_harden()
+	conc_wall.update_stats()
+	qdel(O)
+	return
+
+/datum/reagent/concrete/proc/concify_catwalk(obj/O, volume)
+	if(volume < units_per_floor)
+		return
+	var/turf/open/floor/plating/floor_turf = get_turf(O)
+	if(!istype(floor_turf))
+		return
+	var/turf/open/floor/concrete/conc_floor = floor_turf.PlaceOnTop(floor_type)
+	O.transfer_fingerprints_to(conc_floor)
+	conc_floor.harden_lvl = 0
+	conc_floor.check_harden()
+	conc_floor.update_icon()
+	qdel(O)
+	return
+
+/datum/reagent/concrete/hexacrete
+	name = "Hexacrete"
+	description = "Made with fortified cement, this mix of binder and aggregate is a useful, sturdy building material."
+	color = "#7b6e60"
+	wall_type = /turf/closed/wall/concrete/reinforced
+	floor_type = /turf/open/floor/concrete/reinforced
+
+/datum/reagent/concrete/pavement
+	name = "Pavement"
+	description = "Road surface, blacktop, asphalt concrete, whatever you call it, it's the most common material used in constructing runways for ships and roadways for vehicles."
+	color = "#3f4543"
+	floor_type = /turf/open/floor/concrete/pavement
+
 /datum/reagent/calcium
 	name = "Calcium"
 	description = "A dull gray metal important to bones."
@@ -2620,6 +2759,19 @@
 	description = "A light, reflective grey metal used in ship construction."
 	reagent_state = SOLID
 	color = "#c2c2c2"
+
+/datum/reagent/asphalt
+	name = "Asphalt"
+	description = "A dark, viscous liquid. Often found in oil deposits, although sometimes it can seep to the surface."
+	color = "#111212"
+	taste_description = "petroleum"
+
+/datum/reagent/asphalt/on_mob_life(mob/living/carbon/M)
+	. = ..()
+	if(prob(min(current_cycle/2, 5)))
+		M.adjustToxLoss(2*REM)
+	if(prob(min(current_cycle/4, 10)))
+		M.adjustOrganLoss(ORGAN_SLOT_STOMACH,3*REM)
 
 /datum/reagent/mutationtoxin/kobold
 	name = "Kobold Mutation Toxin"

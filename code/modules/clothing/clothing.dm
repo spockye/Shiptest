@@ -210,13 +210,13 @@
 		to_chat(usr, "[readout.Join()]")
 
 /**
-  * Rounds armor_value to nearest 10, divides it by 10 and then expresses it in roman numerals up to 10
-  *
-  * Rounds armor_value to nearest 10, divides it by 10
-  * and then expresses it in roman numerals up to 10
-  * Arguments:
-  * * armor_value - Number we're converting
-  */
+ * Rounds armor_value to nearest 10, divides it by 10 and then expresses it in roman numerals up to 10
+ *
+ * Rounds armor_value to nearest 10, divides it by 10
+ * and then expresses it in roman numerals up to 10
+ * Arguments:
+ * * armor_value - Number we're converting
+ */
 /obj/item/clothing/proc/armor_to_protection_class(armor_value)
 	armor_value = round(armor_value,10) / 10
 	switch (armor_value)
@@ -421,12 +421,9 @@
 		return
 	adjusted = !adjusted
 	if(adjusted)
-		if(fitted != FEMALE_UNIFORM_TOP)
-			fitted = NO_FEMALE_UNIFORM
 		if(!alt_covers_chest) // for the special snowflake suits that expose the chest when adjusted
 			body_parts_covered &= ~CHEST
 	else
-		fitted = initial(fitted)
 		if(!alt_covers_chest)
 			body_parts_covered |= CHEST
 	return adjusted
