@@ -1794,7 +1794,7 @@
 	dir = 1
 	},
 /turf/open/floor/plating/airless,
-/area/space)
+/area/ship/engineering/electrical)
 "xu" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
@@ -3900,8 +3900,8 @@
 /turf/open/floor/plasteel/telecomms_floor,
 /area/ship/bridge)
 "VC" = (
-/turf/open/space/basic,
-/area/space)
+/turf/template_noop,
+/area/template_noop)
 "VD" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
