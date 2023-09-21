@@ -344,7 +344,13 @@
 	light_range = 2
 	light_power = 0.80
 
+/turf/open/floor/plating/grass/borderless
+	icon = 'icons/turf/floors/misc'
+	icon_state = "grass"
 
+/turf/open/floor/plating/grass/borderless/Initialize(mapload, inherited_virtual_z)
+	. = ..()
+		icon_state = "[icon_state][rand(1, 3)]"
 
 /turf/open/floor/plating/moss
 	name = "mossy carpet"
