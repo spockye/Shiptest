@@ -51,7 +51,7 @@ GLOBAL_LIST_INIT(spider_last, world.file2list("strings/names/spider_last.txt"))
 	attack_sound = 'sound/weapons/slash.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
 	meat = /obj/item/reagent_containers/food/snacks/meat/slab/human/mutant/spider
-	liked_food = MEAT | RAW
+	liked_food = MEAT | RAW | GORE // Regular spiders literally liquify the insides of their prey and drink em like a smoothie. I think this fits
 	disliked_food = FRUIT | GROSS
 	toxic_food = VEGETABLES | DAIRY | CLOTH
 	mutanteyes = /obj/item/organ/eyes/night_vision/spider
@@ -67,8 +67,8 @@ GLOBAL_LIST_INIT(spider_last, world.file2list("strings/names/spider_last.txt"))
 	species_head = /obj/item/bodypart/head/rachnid
 	species_l_arm = /obj/item/bodypart/l_arm/rachnid
 	species_r_arm = /obj/item/bodypart/r_arm/rachnid
-	species_l_leg = /obj/item/bodypart/l_leg/rachnid
-	species_r_leg = /obj/item/bodypart/r_leg/rachnid
+	species_l_leg = /obj/item/bodypart/leg/left/rachnid
+	species_r_leg = /obj/item/bodypart/leg/right/rachnid
 
 /proc/random_unique_spider_name(attempts_to_find_unique_name=10)
 	for(var/i in 1 to attempts_to_find_unique_name)
